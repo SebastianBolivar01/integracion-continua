@@ -1,9 +1,9 @@
 // src/components/GlobeScene.tsx
-import React, { useRef } from "react";
+import { useRef } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 
 export default function GlobeScene() {
-const globeEl = useRef<GlobeMethods>();
+const globeEl = useRef<GlobeMethods | undefined>(undefined);
 
 interface Country {
     lat: number;

@@ -1,18 +1,17 @@
     import { render, screen } from "@testing-library/react";
-    import React from "react";
     import GlobeScene from "./GlobeScene";
 
     // 🔹 Mock de react-globe.gl (evita renderizar WebGL real)
-    vi.mock("react-globe.gl", () => {
+    jest.mock("react-globe.gl", () => {
     return {
         __esModule: true,
-        default: vi.fn(() => <div data-testid="mock-globe">Globe Mock</div>),
+        default: jest.fn(() => <div data-testid="mock-globe">Globe Mock</div>),
     };
     });
 
     describe("GlobeScene component", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("renders correctly", () => {

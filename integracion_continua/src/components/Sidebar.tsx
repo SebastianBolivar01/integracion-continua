@@ -32,7 +32,7 @@ export default function Sidebar() {
   );
 
   return (
-    <aside className="hidden md:flex flex-col w-full md:w-[240px] border-r border-slate-200 dark:border-slate-800 bg-[#81C784]">
+    <aside className="hidden md:flex flex-col w-full md\:w-\[240px\] border-r border-slate-200 dark:border-slate-800 bg-[#81C784]">
       <div className="flex-1">
         <div className="p-3 space-y-1">
           {/* Acordeón Main Items */}
