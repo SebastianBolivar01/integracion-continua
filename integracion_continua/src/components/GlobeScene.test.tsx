@@ -1,3 +1,4 @@
+
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import GlobeScene from "./GlobeScene";
@@ -14,6 +15,7 @@ describe("GlobeScene component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
 
   it("renders correctly", () => {
     render(<GlobeScene />);
