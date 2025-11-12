@@ -12,6 +12,7 @@ const mainItems: SidebarItem[] = [
   { label: "🎨 Pintura 3D", route: "/paint" },
   { label: "🪐 Sistema Solar", route: "/solarsystem" },
   { label: "💧 Ciclo del Agua", route: "/watercycle" },
+  { label: "🧑‍💻 Tecnología y Pensamiento Lógico", route: "/technology-logic" }, // Nueva ruta añadida
 ];
 
 export default function Sidebar() {
@@ -32,7 +33,7 @@ export default function Sidebar() {
   );
 
   return (
-    <aside className="hidden md:flex flex-col w-full md\:w-\[240px\] border-r border-slate-200 dark:border-slate-800 bg-[#81C784]">
+    <aside className="hidden md:flex flex-col w-full md:w-[240px] border-r border-slate-200 dark:border-slate-800 bg-[#81C784]">
       <div className="flex-1">
         <div className="p-3 space-y-1">
           {/* Acordeón Main Items */}
@@ -53,7 +54,6 @@ export default function Sidebar() {
         <div className="bg-white rounded-lg p-4 text-center text-[#15803D] font-bold">
           🦊 ¡Sigue explorando!
         </div>
-
       </div>
     </aside>
   );
