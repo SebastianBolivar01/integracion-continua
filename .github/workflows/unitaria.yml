@@ -34,6 +34,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
+          cache-dependency-path: integracion_continua/package-lock.json
           # 💾 Cache de dependencias para acelerar ejecuciones
 
       - name: 📦 Install dependencies (npm ci)
@@ -58,4 +59,3 @@ jobs:
         with:
           name: dist-node-${{ matrix.node-version }}
           path: integracion_continua/dist
-
