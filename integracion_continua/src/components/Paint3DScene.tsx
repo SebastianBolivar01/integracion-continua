@@ -31,6 +31,29 @@ const [strokes, setStrokes] = useState<number[][][]>([]);
 const [currentStroke, setCurrentStroke] = useState<number[][]>([]);
 const [drawing, setDrawing] = useState(false);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  // NOTA: El componente original tenía <div style={{ display: "flex" }}>
+  // Lo he cambiado a "flex h-full w-full" para que use Tailwind y
+  // se adapte mejor al Layout.
+  return (
+    <div className="flex h-full w-full">
+      {/* Panel de controles */}
+      <div className="w-1/4 p-4 bg-gray-100 dark:bg-gray-800 overflow-y-auto">
+        <h2 className="text-xl font-bold mb-4">Pintura 3D</h2>
+        <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
+          Click y arrastra en la vista para dibujar en 3D.
+        </p>
+        <button
+          // CORRECCIÓN 7: El botón "Limpiar" ahora funciona,
+          // porque tiene acceso a 'setStrokes'.
+          onClick={() => {
+            setStrokes([]);
+          }}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+=======
+>>>>>>> 7e0bf54 (mejoras globo)
 return (
     <div style={{ display: "flex" }}>
     <div style={{ width: "60vw", height: "60vh", position: "relative" }}>
@@ -52,6 +75,10 @@ return (
         }}
         camera={{ position: [0, 0, 5] }}
         style={{ background: 'white' }}
+<<<<<<< HEAD
+=======
+>>>>>>> 3c505a4 (mejoras del globo)
+>>>>>>> 7e0bf54 (mejoras globo)
         >
         <ambientLight intensity={0.8} />
         <Painter strokes={[...strokes, currentStroke]} />
