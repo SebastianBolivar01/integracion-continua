@@ -20,6 +20,7 @@ export default function AppRoutes() {
         {/* ✅ Nuevas rutas de las tres áreas temáticas */}
         <Route path="shapes" element={<ShapesView />} />
         <Route path="globe" element={<GlobeView />} />
+        <Route path="paint" element={<TechnologyLogicView />} />
         <Route path="solarsystem" element={<SolarSystemView />} />
         <Route path="watercycle" element={<WaterCycleView />} />
 
