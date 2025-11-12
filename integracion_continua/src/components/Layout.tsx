@@ -4,6 +4,7 @@ export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
+  const isGlobe = location.pathname === '/globe';
 
   return (
     <div className="h-screen relative">
@@ -20,7 +21,7 @@ export default function Layout() {
       {/* Contenedor principal */}
       <div className="flex flex-col h-full">
         {/* Contenido dinámico (cada vista) */}
-        <main className="flex-1 overflow-y-auto pt-16 p-4 bg-[#c2e1ef]">
+        <main className={`flex-1 ${isGlobe ? 'overflow-hidden p-0' : 'overflow-y-auto pt-16 p-4'} bg-[#c2e1ef]`}>
           <Outlet />
         </main>
       </div>
