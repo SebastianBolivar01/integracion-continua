@@ -1,6 +1,4 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Sidebar from "./Sidebar";
-
 
 export default function Layout() {
   const location = useLocation();
@@ -11,8 +9,6 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar - solo mostrar si no es home */}
-      {!isHome && !isSolarSystem && <Sidebar />}
 
       {/* Contenedor principal */}
       <div className={`flex flex-col ${isHome ? 'flex-1' : 'flex-1'}`}>
