@@ -38,7 +38,7 @@ const geometry =
 
 return (
     <div style={{ display: "flex", gap: 12 }}>
-    <div style={{ width: "70vw", height: "70vh" }}>
+    <div style={{ width: "60vw", height: "60vh" }}>
         <Canvas camera={{ position: [0, 0, 4] }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} />

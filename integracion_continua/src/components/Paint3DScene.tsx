@@ -33,7 +33,7 @@ const [drawing, setDrawing] = useState(false);
 
 return (
     <div style={{ display: "flex" }}>
-    <div style={{ width: "70vw", height: "70vh", position: "relative" }}>
+    <div style={{ width: "60vw", height: "60vh", position: "relative" }}>
         <Canvas
         onPointerDown={(e) => {
             setDrawing(true);
