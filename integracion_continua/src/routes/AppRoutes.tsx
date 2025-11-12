@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout";
+import HomePage from "../views/HomePage";
 
 // ✅ Nuevas vistas educativas 3D
 import ShapesView from "../views/ShapesView";
@@ -14,7 +15,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Página principal */}
-        <Route index element={<></>} />
+        <Route index element={<HomePage />} />
 
         {/* ✅ Nuevas rutas de las tres áreas temáticas */}
         <Route path="shapes" element={<ShapesView />} />
