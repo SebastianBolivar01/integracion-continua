@@ -2,7 +2,7 @@ import Paint3DScene from "../components/Paint3DScene";
 
 export default function PaintView() {
 return (
-    <div>
+    <div className="bg-white p-4 rounded-lg">
     <header className="p-4 text-xl font-bold">
         🎨 Arte y Creatividad — Pintura 3D
     </header>

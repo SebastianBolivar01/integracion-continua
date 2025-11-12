@@ -51,6 +51,7 @@ return (
             }
         }}
         camera={{ position: [0, 0, 5] }}
+        style={{ background: 'white' }}
         >
         <ambientLight intensity={0.8} />
         <Painter strokes={[...strokes, currentStroke]} />

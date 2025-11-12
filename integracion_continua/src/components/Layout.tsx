@@ -14,7 +14,7 @@ export default function Layout() {
         
 
         {/* Contenido dinámico (cada vista) */}
-        <main className="flex-1 overflow-y-auto p-4 bg-slate-50 dark:bg-slate-900">
+        <main className="flex-1 overflow-y-auto p-4 bg-[#c2e1ef]">
           <Outlet />
         </main>
       </div>

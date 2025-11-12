@@ -2,7 +2,7 @@ import GlobeScene from "../components/GlobeScene";
 
 export default function GlobeView() {
 return (
-    <div>
+    <div className="bg-white p-4 rounded-lg">
     <header className="p-4 text-xl font-bold">
         🌍 Ciencias Sociales / Geografía — Globo Interactivo
     </header>
