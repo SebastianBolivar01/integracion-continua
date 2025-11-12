@@ -37,25 +37,25 @@ jobs:
           # 💾 Cache de dependencias para acelerar ejecuciones
 
       - name: 📦 Install dependencies (npm ci)
-        run: npm ci
+        run: cd integracion_continua && npm ci
         # Usa package-lock para instalaciones reproducibles
 
       - name: 🧠 Type check (TS)
-        run: npm run type-check
+        run: cd integracion_continua && npm run type-check
 
       - name: 🔍 Lint (ESLint)
-        run: npm run lint
+        run: cd integracion_continua && npm run lint
 
       - name: 🧪 Run tests (Jest)
-        run: npm test -- --ci
+        run: cd integracion_continua && npm test -- --ci
 
       - name: 🏗️ Build (Vite)
-        run: npm run build
+        run: cd integracion_continua && npm run build
 
       - name: 📤 Upload production build (artifact)
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: dist-node-${{ matrix.node-version }}
-          path: dist
+          path: integracion_continua/dist
 
