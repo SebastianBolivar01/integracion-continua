@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -23,7 +23,7 @@ function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
   });
 
   return (
-    <mesh ref={meshRef} onClick={() => onClick(name)}>
+    <mesh ref={meshRef} onClick={() => onClick(name)} data-testid={`planet-${name}`}>
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial color={color} />
     </mesh>
@@ -52,7 +52,7 @@ export default function SolarSystemScene() {
         <ambientLight intensity={0.4} />
         <pointLight position={[0, 0, 0]} intensity={1.5} />
         {/* Sol */}
-        <mesh>
+        <mesh data-testid="sun">
           <sphereGeometry args={[1.2, 32, 32]} />
           <meshStandardMaterial emissive={"#ffaa00"} emissiveIntensity={1} />
         </mesh>
