@@ -1,22 +1,30 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === '/';
-  const isSolarSystem = location.pathname === '/solarsystem';
+  const isPaint = location.pathname === '/paint';
   const isGlobe = location.pathname === '/globe';
 
 
   return (
-    <div className="flex h-screen">
+    <div className="h-screen relative">
+      {/* Botón Atrás - solo mostrar si no es home y no es paint */}
+      {!isHome && !isPaint && (
+        <button
+          onClick={() => navigate('/')}
+          className="absolute top-4 left-4 z-10 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
+        >
+          {'<-- Atrás'}
+        </button>
+      )}
 
       {/* Contenedor principal */}
-      <div className={`flex flex-col ${isHome ? 'flex-1' : 'flex-1'}`}>
+      <div className="flex flex-col h-full">
         {/* Contenido dinámico (cada vista) */}
-
-        <main className={`flex-1 overflow-y-auto ${isSolarSystem ? '' : 'p-4'} ${isHome ? 'bg-[#c2e1ef]' : 'bg-[#c2e1ef]'}`}>
+        <main className={`flex-1 overflow-y-auto ${isGlobe ? 'p-0' : 'pt-16 p-4'} bg-[#c2e1ef]`}>
           <Outlet />
-        
         </main>
       </div>
     </div>
