@@ -10,6 +10,8 @@ const mainItems: SidebarItem[] = [
   { label: "🔷 Explorador de Formas", route: "/shapes" },
   { label: "🌍 Globo Interactivo", route: "/globe" },
   { label: "🎨 Pintura 3D", route: "/paint" },
+  { label: "🪐 Sistema Solar", route: "/solarsystem" },
+  { label: "💧 Ciclo del Agua", route: "/watercycle" },
 ];
 
 export default function Sidebar() {
