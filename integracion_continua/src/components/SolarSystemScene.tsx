@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Ring, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
 interface PlanetProps {
@@ -30,6 +30,22 @@ function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
   );
 }
 
+function Orbit({ distance }: { distance: number }) {
+  return (
+    <Ring
+      args={[distance - 0.01, distance + 0.01, 128]}
+      rotation-x={-Math.PI / 2}
+    >
+      <meshBasicMaterial
+        color="#555"
+        side={THREE.DoubleSide}
+        transparent
+        opacity={0.5}
+      />
+    </Ring>
+  );
+}
+
 export default function SolarSystemScene() {
   const handlePlanetClick = (name: string) => {
     alert(`${name} — planeta del Sistema Solar`);
@@ -47,11 +63,14 @@ export default function SolarSystemScene() {
   ];
 
   return (
-    <div style={{ width: "70vw", height: "70vh" }}>
+    <div className="w-full h-full">
       <Canvas camera={{ position: [0, 5, 15], fov: 60 }}>
         <ambientLight intensity={0.4} />
         <pointLight position={[0, 0, 0]} intensity={1.5} />
         {/* Sol */}
+        {/* Fondo de estrellas */}
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+
         <mesh data-testid="sun">
           <sphereGeometry args={[1.2, 32, 32]} />
           <meshStandardMaterial emissive={"#ffaa00"} emissiveIntensity={1} />
@@ -60,6 +79,11 @@ export default function SolarSystemScene() {
         {/* Planetas */}
         {planets.map((p) => (
           <Planet key={p.name} {...p} onClick={handlePlanetClick} />
+        ))}
+
+        {/* Órbitas */}
+        {planets.map((p) => (
+          <Orbit key={`orbit-${p.name}`} distance={p.distance} />
         ))}
 
         <OrbitControls />
