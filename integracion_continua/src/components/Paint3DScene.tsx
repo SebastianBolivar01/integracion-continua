@@ -32,8 +32,12 @@ const [currentStroke, setCurrentStroke] = useState<number[][]>([]);
 const [drawing, setDrawing] = useState(false);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+
+>>>>>>> 7c3d54b (globo)
   // NOTA: El componente original tenía <div style={{ display: "flex" }}>
   // Lo he cambiado a "flex h-full w-full" para que use Tailwind y
   // se adapte mejor al Layout.
@@ -52,6 +56,7 @@ const [drawing, setDrawing] = useState(false);
             setStrokes([]);
           }}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+<<<<<<< HEAD
 =======
 >>>>>>> 7e0bf54 (mejoras globo)
 return (
@@ -79,6 +84,9 @@ return (
 =======
 >>>>>>> 3c505a4 (mejoras del globo)
 >>>>>>> 7e0bf54 (mejoras globo)
+=======
+
+>>>>>>> 7c3d54b (globo)
         >
         <ambientLight intensity={0.8} />
         <Painter strokes={[...strokes, currentStroke]} />
