@@ -65,6 +65,7 @@ export default function SolarSystemScene() {
   return (
     <div className="w-full h-full">
       <Canvas camera={{ position: [0, 5, 15], fov: 60 }}>
+        <color attach="background" args={['#000000']} />
         <ambientLight intensity={0.4} />
         <pointLight position={[0, 0, 0]} intensity={1.5} />
         {/* Sol */}

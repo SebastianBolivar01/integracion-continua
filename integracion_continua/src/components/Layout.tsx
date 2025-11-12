@@ -6,6 +6,7 @@ export default function Layout() {
   const isHome = location.pathname === '/';
   const isPaint = location.pathname === '/paint';
   const isGlobe = location.pathname === '/globe';
+  const isSolarSystem = location.pathname === '/solarsystem';
 
 
   return (
@@ -23,7 +24,7 @@ export default function Layout() {
       {/* Contenedor principal */}
       <div className="flex flex-col h-full">
         {/* Contenido dinámico (cada vista) */}
-        <main className={`flex-1 overflow-y-auto ${isGlobe ? 'p-0' : 'pt-16 p-4'} bg-[#c2e1ef]`}>
+        <main className={`flex-1 overflow-y-auto ${(isGlobe || isSolarSystem) ? 'p-0' : 'pt-16 p-4'} bg-[#c2e1ef]`}>
           <Outlet />
         </main>
       </div>
