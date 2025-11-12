@@ -1,10 +1,12 @@
 import ShapesScene from "../components/ShapesScene";
 
 export default function ShapesView() {
-return (
-    <div className="bg-white p-4 rounded-lg">
-    <h2 className="p-4 text-xl font-bold">🔷 Exploración de Formas 3D</h2>
-    <ShapesScene />
+  return (
+    <div className="relative h-full">
+      <ShapesScene />
+      <h2 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-white pointer-events-none z-20">
+        🔷 Exploración de Formas 3D
+      </h2>
     </div>
-);
+  );
 }
