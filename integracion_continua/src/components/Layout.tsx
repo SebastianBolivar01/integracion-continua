@@ -1,4 +1,4 @@
-importAR { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function Layout() {
   const location = useLocation();
