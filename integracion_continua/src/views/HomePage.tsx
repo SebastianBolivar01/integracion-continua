@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Shapes, Globe, Palette, Sun, Droplets, MoonStar, Rocket, Earth } from "lucide-react";
 
 const homeItems = [
-  { label: "🔷 Explorador de Formas", route: "/shapes", description: "Aprende sobre formas 3D" },
-  { label: "🌍 Globo Interactivo", route: "/globe", description: "Explora países del mundo" },
-  { label: "🎨 Pintura 3D", route: "/paint", description: "Dibuja en el espacio 3D" },
-  { label: "🪐 Sistema Solar", route: "/solarsystem", description: "Descubre los planetas" },
-  { label: "💧 Ciclo del Agua", route: "/watercycle", description: "Conoce cómo funciona el agua" },
+  { icon: Shapes, label: "Explorador de Formas", route: "/shapes", description: "Aprende sobre formas 3D" },
+  { icon: Globe, label: "Globo Interactivo", route: "/globe", description: "Explora países del mundo" },
+  { icon: Palette, label: "Pintura 3D", route: "/paint", description: "Dibuja en el espacio 3D" },
+  { icon: Sun, label: "Sistema Solar", route: "/solarsystem", description: "Descubre los planetas" },
+  { icon: Droplets, label: "Ciclo del Agua", route: "/watercycle", description: "Conoce cómo funciona el agua" },
 ];
 
 export default function HomePage() {
@@ -17,14 +18,19 @@ export default function HomePage() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-[#15803D]">
-          ¡Bienvenido a la Aventura Educativa! 🌟
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-cyan-300 text-center">
+          ¡Bienvenido a la Aventura Educativa!
         </h1>
-        <p className="text-lg md:text-xl mb-12 max-w-2xl mx-auto text-gray-700">
+        <div className="text-6xl mb-4 flex justify-center text-cyan-300 space-x-4">
+          <MoonStar />
+          <Rocket />
+          <Earth />
+        </div>
+        <p className="text-lg md:text-xl mb-12 max-w-2xl mx-auto text-gray-300">
           Explora el mundo de las matemáticas, las ciencias sociales y las ciencias naturales de forma divertida y interactiva.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
           {homeItems.map((item, index) => (
             <motion.div
               key={item.route}
@@ -34,10 +40,10 @@ export default function HomePage() {
             >
               <Link
                 to={item.route}
-                className="block h-48 bg-[#81C784] hover:bg-[#66BB6A] text-[#166534] font-bold py-8 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="h-48 bg-cyan-500/20 backdrop-blur-sm border border-cyan-400/50 hover:bg-cyan-500/30 text-cyan-100 font-bold py-8 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex flex-col justify-center text-center"
               >
-                <div className="text-3xl mb-4">{item.label.split(' ')[0]}</div>
-                <div className="text-xl mb-2">{item.label.substring(2)}</div>
+                <div className="text-6xl mb-4 flex justify-center"><item.icon /></div>
+                <div className="text-xl mb-2">{item.label}</div>
                 <p className="text-sm opacity-80">{item.description}</p>
               </Link>
             </motion.div>

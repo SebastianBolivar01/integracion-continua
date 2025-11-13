@@ -1,9 +1,24 @@
 // src/components/GlobeScene.tsx
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Globe, { GlobeMethods } from "react-globe.gl";
 
 export default function GlobeScene() {
 const globeEl = useRef<GlobeMethods | undefined>(undefined);
+const containerRef = useRef<HTMLDivElement>(null);
+const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+
+useEffect(() => {
+  const updateDimensions = () => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setDimensions({ width: rect.width, height: rect.height });
+    }
+  };
+
+  updateDimensions();
+  window.addEventListener('resize', updateDimensions);
+  return () => window.removeEventListener('resize', updateDimensions);
+}, []);
 
 interface Country {
     lat: number;
@@ -42,8 +57,7 @@ const countries: Country[] = [
 ];
 
 return (
-    <div style={{ display: "flex" }}>
-    <div style={{ width: "60vw", height: "60vh" }}>
+    <div ref={containerRef} className="w-full h-full" style={{ overflow: 'hidden' }}>
         <Globe
         ref={globeEl}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
@@ -55,18 +69,9 @@ return (
         pointRadius={0.5}
         pointColor={() => '#ef685cff'} // Añadir color para que los puntos sean visibles
         onPointClick={(d) => alert(`${(d as Country).name}: ${(d as Country).info}`)}
+        width={dimensions.width}
+        height={dimensions.height}
         />
-    </div>
-
-    <div style={{ width: 240, padding: 8 }}>
-        <h3>Información</h3>
-        <p>Haz clic en un punto para ver información.</p>
-        <ul>
-        {countries.map((c) => (
-            <li key={c.name}>{c.name} — {c.info}</li>
-        ))}
-        </ul>
-    </div>
     </div>
 );
 }

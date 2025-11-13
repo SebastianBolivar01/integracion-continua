@@ -3,7 +3,7 @@ import React from 'react';
 export default function TechnologyLogic() {
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Tecnología y Pensamiento Lógico</h2>
+      <h2 className="text-xl font-bold font-display mb-4">Tecnología y Pensamiento Lógico</h2>
       <div className="space-y-4">
         <div>
           <h3 className="text-lg font-semibold">Construcción con bloques (tipo Minecraft)</h3>
