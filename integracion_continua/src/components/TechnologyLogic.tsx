@@ -100,7 +100,7 @@ export default function TechnologyLogic() {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-b from-sky-300 via-pink-300 to-yellow-300 flex flex-col items-center justify-center p-4">
+    <div className="w-full h-screen bg-linear-to-b from-sky-300 via-pink-300 to-yellow-300 flex flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold text-purple-600 mb-4 text-center">🤖 ¡Mi Robot Amigo! 🤖</h1>
 
       <div className="w-full max-w-4xl bg-white/20 backdrop-blur-sm rounded-3xl p-6 shadow-2xl">
