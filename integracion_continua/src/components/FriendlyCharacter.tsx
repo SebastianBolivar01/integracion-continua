@@ -1,50 +1,28 @@
 import { useLocation } from 'react-router-dom';
+import { Bot } from 'lucide-react';
 
-const messages: Record<string, string[]> = {
-  '/': [
-    '¡Hola! Soy tu guía educativo. Explora las maravillas del aprendizaje con nosotros.',
-    '¡Bienvenido! Aquí aprenderás de forma divertida y interactiva.',
-    '¡Hola explorador! ¿Listo para un viaje educativo?'
-  ],
-  '/globe': [
-    '¿Sabías que la Tierra tiene más de 7 mil millones de habitantes? ¡Descubre más sobre nuestro planeta!',
-    '¡Haz clic en los puntos del globo para conocer países fascinantes!',
-    'La Tierra es el único planeta conocido con vida. ¡Explóralo!'
-  ],
-  '/solar-system': [
-    'El Sol es una estrella gigante. ¡Aprende sobre los planetas que orbitan a su alrededor!',
-    '¡Haz clic en los planetas para saber más sobre ellos!',
-    'Nuestro sistema solar tiene 8 planetas. ¿Cuál es tu favorito?'
-  ],
-  '/shapes': [
-    'Las formas geométricas están en todas partes. ¡Juguemos a identificarlas!',
-    '¡Cambia el color y la forma! ¿Qué puedes crear?',
-    'Las matemáticas están en las formas. ¡Diviértete explorando!'
-  ],
-  '/technology-logic': [
-    'La lógica es la base de la tecnología. ¡Descubre cómo piensan las máquinas!',
-    '¡Interactúa con la lógica tecnológica!',
-    'La tecnología nos ayuda a resolver problemas. ¡Aprende cómo!'
-  ],
-  '/water-cycle': [
-    'El agua viaja en un ciclo infinito. ¡Veamos cómo funciona!',
-    '¡Observa el ciclo del agua en acción!',
-    'El agua es esencial para la vida. ¡Descubre su viaje!'
-  ],
+const messages: { [key: string]: string } = {
+  '/': '¡Hola! ¡Bienvenido! Elige una actividad para empezar a explorar.',
+  '/paint': '¡Usa tu creatividad! Dibuja y colorea lo que imagines.',
+  '/globe': 'Explora nuestro planeta. ¿Qué lugar te gustaría visitar?',
+  '/solarsystem': '¡Viajemos por el espacio! Conoce los planetas de nuestro sistema solar.',
+  '/shapes': '¡Juguemos con las formas! ¿Puedes encontrar el círculo y el cuadrado?',
+  'default': '¡Qué divertido es aprender! Sigue explorando.'
 };
 
 export default function FriendlyCharacter() {
   const location = useLocation();
-  const availableMessages = messages[location.pathname] || ['¡Explora y aprende algo nuevo cada día!'];
-  const message = availableMessages[Math.floor(Math.random() * availableMessages.length)];
+  const message = messages[location.pathname] || messages['default'];
 
   return (
-    <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-xs z-50 border-2 border-blue-200">
-      <div className="flex items-center space-x-3">
-        <div className="text-4xl">🤖</div>
-        <div>
-          <p className="text-sm font-sans text-gray-800">{message}</p>
-        </div>
+    <div className="absolute bottom-4 right-4 flex items-end space-x-2 z-20" data-testid="friendly-character">
+      <div className="relative bg-white p-4 rounded-lg rounded-br-none shadow-lg max-w-xs">
+        <p className="text-sm text-gray-800" data-testid="character-message">{message}</p>
+        {/* Esto crea la pequeña flecha del globo de diálogo */}
+        <div className="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-white"></div>
+      </div>
+      <div className="text-blue-400">
+        <Bot size={64} className="transform -scale-x-100" />
       </div>
     </div>
   );

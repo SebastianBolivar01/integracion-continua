@@ -1,16 +1,7 @@
 // Este archivo extiende el entorno de prueba de Jest.
 
 import "@testing-library/jest-dom";
-import { TextEncoder, TextDecoder } from "util";
-
-// Polyfill para TextEncoder/TextDecoder
-if (typeof global.TextEncoder === "undefined") {
-  (global as any).TextEncoder = TextEncoder;
-}
-
-if (typeof global.TextDecoder === "undefined") {
-  (global as any).TextDecoder = TextDecoder;
-}
+// Las líneas de TextEncoder y TextDecoder se movieron a jest.setup.ts
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
