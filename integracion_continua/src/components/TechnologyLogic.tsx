@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { OrbitControls } from '@react-three/drei'; // Asegúrate de instalar esta dependencia si no la tienes: npm install @react-three/drei
@@ -13,7 +13,7 @@ function Robot3D({ targetPosition, direction }: Robot3DProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const currentPosition = useRef<[number, number, number]>([0, 1, 0]); // Iniciar en [0, 1, 0] para estar sobre el plano
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     if (meshRef.current) {
       // 1. Movimiento Suave (Interpolación Lineal - lerp)
       const targetVec = new THREE.Vector3(...targetPosition);
