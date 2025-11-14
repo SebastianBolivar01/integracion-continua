@@ -37,7 +37,7 @@ function Orbit({ distance }: { distance: number }) {
       rotation-x={-Math.PI / 2}
     >
       <meshBasicMaterial
-        color="#555"
+        color="#a7a3a3ff"
         side={THREE.DoubleSide}
         transparent
         opacity={0.5}
