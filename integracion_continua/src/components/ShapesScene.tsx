@@ -27,18 +27,18 @@ export default function ShapesScene() {
 const [color, setColor] = useState("#ff5555");
 const [scale, setScale] = useState(1);
 const [speed, setSpeed] = useState(0.8);
-const platonicFaces = [4, 6, 8, 12, 20];
+const platonicFaces = [4, 6, 8, 12, 20, 0];
 const [faceIndex, setFaceIndex] = useState(0);
 const faceCount = platonicFaces[faceIndex];
 
-const getShapeFromFaces = (faces: number): "tetrahedron" | "box" | "octahedron" | "dodecahedron" | "icosahedron" => {
+const getShapeFromFaces = (faces: number): "tetrahedron" | "box" | "octahedron" | "dodecahedron" | "icosahedron" | "cone" => {
   switch (faces) {
     case 4: return "tetrahedron";
     case 6: return "box";
     case 8: return "octahedron";
     case 12: return "dodecahedron";
     case 20: return "icosahedron";
-    default: return "tetrahedron";
+    default: return "cone";
   }
 };
 
@@ -49,7 +49,7 @@ const getShapeName = (faces: number): string => {
     case 8: return "Octaedro";
     case 12: return "Dodecaedro";
     case 20: return "Icosaedro";
-    default: return "Tetraedro";
+    default: return "Cono";
   }
 };
 
@@ -75,20 +75,23 @@ const checkerTexture = useMemo(() => {
   return texture;
 }, []);
 
-const geometry =
-    shape === "tetrahedron"
-    ? new THREE.TetrahedronGeometry(0.8, 0)
-    : shape === "box"
-    ? new THREE.BoxGeometry(1, 1, 1)
-    : shape === "octahedron"
-    ? new THREE.OctahedronGeometry(0.8, 0)
-    : shape === "dodecahedron"
-    ? new THREE.DodecahedronGeometry(0.8, 0)
-    : shape === "icosahedron"
-    ? new THREE.IcosahedronGeometry(0.8, 0)
-    : shape === "sphere"
-    ? new THREE.SphereGeometry(0.7, 32, 32)
-    : new THREE.ConeGeometry(0.8, 1.4, 32);
+// Memoizar geometry para evitar recrearla en cada render
+const geometry = useMemo(() => {
+  switch (shape) {
+    case "tetrahedron":
+      return new THREE.TetrahedronGeometry(0.8, 0);
+    case "box":
+      return new THREE.BoxGeometry(1, 1, 1);
+    case "octahedron":
+      return new THREE.OctahedronGeometry(0.8, 0);
+    case "dodecahedron":
+      return new THREE.DodecahedronGeometry(0.8, 0);
+    case "icosahedron":
+      return new THREE.IcosahedronGeometry(0.8, 0);
+    default:
+      return new THREE.ConeGeometry(0.8, 1.4, 32);
+  }
+}, [shape]);
 
 return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
@@ -170,7 +173,7 @@ return (
                         textAlign: "center"
                     }}>{faceCount}</span>
                     <button
-                        onClick={() => setFaceIndex(Math.min(platonicFaces.length - 1, faceIndex + 1))}
+                        onClick={() => setFaceIndex(Math.min(5, faceIndex + 1))}
                         style={{
                             padding: "8px 12px",
                             borderRadius: "8px",
@@ -197,7 +200,7 @@ return (
                   {[
                     '#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b',
                     '#6c5ce7', '#a29bfe', '#fd79a8', '#00b894', '#00cec9', '#e17055',
-                    '#ffeaa7', '#fab1a0', '#fdcb6e', '#e84393', '#0984e3', '#6c5ce7'
+                    '#ffeaa7', '#fab1a0', '#fdcb6e', '#e84393', '#0984e3'
                   ].map((c) => (
                     <button
                       key={c}

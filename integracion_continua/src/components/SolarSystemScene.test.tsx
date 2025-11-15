@@ -4,7 +4,10 @@ import SolarSystemScene from "./SolarSystemScene";
 // Mock Three.js components
 jest.mock("@react-three/fiber", () => ({
   Canvas: ({ children }: any) => <div data-testid="canvas">{children}</div>,
-  useFrame: jest.fn(),
+  useFrame: jest.fn((callback) => {
+    // Call the callback to simulate frame update
+    callback(0.016, 0); // delta = 16ms
+  }),
 }));
 
 jest.mock("@react-three/drei", () => ({

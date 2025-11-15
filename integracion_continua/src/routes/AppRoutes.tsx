@@ -6,7 +6,6 @@ import HomePage from "../views/HomePage";
 import ShapesView from "../views/ShapesView";
 import GlobeView from "../views/GlobeView";
 import SolarSystemView from "../views/SolarSystemView";
-import TechnologyLogicView from "../views/TechnologyLogicView"; // Ruta correcta
 
 
 export default function AppRoutes() {
@@ -19,11 +18,7 @@ export default function AppRoutes() {
         {/* ✅ Nuevas rutas de las tres áreas temáticas */}
         <Route path="shapes" element={<ShapesView />} />
         <Route path="globe" element={<GlobeView />} />
-        <Route path="paint" element={<TechnologyLogicView />} />
         <Route path="solarsystem" element={<SolarSystemView />} />
-
-        {/* Nueva ruta para Tecnología y Pensamiento Lógico */}
-        <Route path="technology-logic" element={<TechnologyLogicView />} />
       </Route>
     </Routes>
   );

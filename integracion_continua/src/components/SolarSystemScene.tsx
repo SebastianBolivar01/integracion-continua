@@ -16,13 +16,17 @@ function Planet(props: {
   const angleRef = useRef(Math.random() * Math.PI * 2);
 
   useFrame(() => {
-    angleRef.current += props.speed;
-    meshRef.current.position.x = Math.cos(angleRef.current) * props.distance;
-    meshRef.current.position.z = Math.sin(angleRef.current) * props.distance;
-  });
+      angleRef.current += props.speed;
+    });
 
   return (
-    <mesh ref={meshRef} onClick={() => props.onClick(props.name)} data-testid={`planet-${props.name}`} data-name={props.name}>
+    <mesh
+      ref={meshRef}
+      onClick={() => props.onClick(props.name)}
+      data-testid={`planet-${props.name}`}
+      data-name={props.name}
+      position={[Math.cos(angleRef.current) * props.distance, 0, Math.sin(angleRef.current) * props.distance]}
+    >
       <sphereGeometry args={[props.size, 32, 32]} />
       <meshStandardMaterial color={props.color} />
     </mesh>
