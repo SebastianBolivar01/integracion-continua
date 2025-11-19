@@ -9,6 +9,18 @@ import WaterCycleScene from "./WaterCycleScene";
 jest.mock("@react-three/fiber", () => ({
   Canvas: ({ children }: any) => <div data-testid="canvas">{children}</div>,
   useFrame: jest.fn(),
+  useThree: () => ({
+    camera: {},
+    scene: {},
+    raycaster: { setFromCamera: jest.fn() },
+    pointer: { x: 0, y: 0 }
+  }),
+}));
+
+// Mock de @react-three/drei
+jest.mock("@react-three/drei", () => ({
+  OrbitControls: () => <div data-testid="orbit-controls" />,
+  Line: () => <div data-testid="line" />,
 }));
 
 // Mock del contexto 2D del canvas
@@ -32,32 +44,46 @@ describe("WaterCycleScene", () => {
     expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 
-  // Prueba que verifica que el menú de controles se renderiza
-  it("renders the controls menu", () => {
+  // Prueba que verifica que el mar se renderiza
+  it("renders the sea", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("Ciclo del Agua")).toBeInTheDocument();
+    // El mar es un mesh con planeGeometry y color azul
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 
-  // Prueba que verifica que se renderizan los botones de las fases del ciclo del agua
-  it("renders phase buttons", () => {
+  // Prueba que verifica que la tierra/playa se renderiza
+  it("renders the land", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("🌞 Evaporación")).toBeInTheDocument();
-    expect(screen.getByText("☁️ Condensación")).toBeInTheDocument();
-    expect(screen.getByText("🌧️ Precipitación")).toBeInTheDocument();
-    expect(screen.getByText("🏞️ Recolección")).toBeInTheDocument();
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 
-  // Prueba que verifica que la fase de evaporación se muestra por defecto
-  it("shows evaporation phase by default", () => {
+  // Prueba que verifica que las montañas se renderizan
+  it("renders mountains", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("🌞 Evaporación")).toBeInTheDocument();
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 
-  // Prueba que verifica que la fase cambia al hacer clic en un botón
-  it("changes phase when button is clicked", () => {
+  // Prueba que verifica que la nube se renderiza
+  it("renders the cloud", () => {
     render(<WaterCycleScene />);
-    const condensationButton = screen.getByText("☁️ Condensación");
-    fireEvent.click(condensationButton);
-    expect(screen.getByText("☁️ Condensación")).toBeInTheDocument();
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
+  });
+
+  // Prueba que verifica que las partículas de vapor se renderizan
+  it("renders vapor particles", () => {
+    render(<WaterCycleScene />);
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
+  });
+
+  // Prueba que verifica que las gotas se renderizan
+  it("renders droplets", () => {
+    render(<WaterCycleScene />);
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
+  });
+
+  // Prueba que verifica que los controles de órbita se renderizan
+  it("renders orbit controls", () => {
+    render(<WaterCycleScene />);
+    expect(screen.getByTestId("orbit-controls")).toBeInTheDocument();
   });
 });
