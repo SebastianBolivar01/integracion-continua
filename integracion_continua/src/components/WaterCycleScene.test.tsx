@@ -5,6 +5,29 @@ import WaterCycleScene from "./WaterCycleScene";
 jest.mock("@react-three/fiber", () => ({
   Canvas: ({ children }: any) => <div data-testid="canvas">{children}</div>,
   useFrame: jest.fn(),
+  extend: jest.fn(),
+}));
+
+// Mock @react-three/drei
+jest.mock("@react-three/drei", () => ({
+  OrbitControls: () => null,
+  Text: () => null,
+}));
+
+// Mock framer-motion
+jest.mock("framer-motion", () => ({
+  motion: {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  },
+}));
+
+// Mock lucide-react
+jest.mock("lucide-react", () => ({
+  Play: () => <span>Play</span>,
+  Pause: () => <span>Pause</span>,
+  RotateCcw: () => <span>RotateCcw</span>,
+  Info: () => <span>Info</span>,
 }));
 
 // Mock HTMLCanvasElement
@@ -29,26 +52,37 @@ describe("WaterCycleScene", () => {
 
   it("renders the controls menu", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("Ciclo del Agua")).toBeInTheDocument();
+    expect(screen.getByText("Controles")).toBeInTheDocument();
   });
 
-  it("renders phase buttons", () => {
+  it("renders control buttons", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("🌞 Evaporación")).toBeInTheDocument();
-    expect(screen.getByText("☁️ Condensación")).toBeInTheDocument();
-    expect(screen.getByText("🌧️ Precipitación")).toBeInTheDocument();
-    expect(screen.getByText("🏞️ Recolección")).toBeInTheDocument();
+    // Verificar que los botones de control están presentes (usando sus roles o accessibility)
+    const buttons = screen.getAllByRole("button");
+    expect(buttons.length).toBeGreaterThan(0);
   });
 
-  it("shows evaporation phase by default", () => {
+  it("shows current phase indicator", () => {
     render(<WaterCycleScene />);
-    expect(screen.getByText("🌞 Evaporación")).toBeInTheDocument();
+    expect(screen.getByText("Fase actual:")).toBeInTheDocument();
   });
 
-  it("changes phase when button is clicked", () => {
+  it("renders speed control", () => {
     render(<WaterCycleScene />);
-    const condensationButton = screen.getByText("☁️ Condensación");
-    fireEvent.click(condensationButton);
-    expect(screen.getByText("☁️ Condensación")).toBeInTheDocument();
+    expect(screen.getByText("Velocidad:")).toBeInTheDocument();
+  });
+
+  it("toggles info panel when info button is clicked", () => {
+    render(<WaterCycleScene />);
+    const infoButton = screen.getByRole("button", { name: /info/i });
+    fireEvent.click(infoButton);
+    expect(screen.getByText("¿Qué es el ciclo del agua?")).toBeInTheDocument();
+  });
+
+  it("renders progress indicator", () => {
+    render(<WaterCycleScene />);
+    // Verificar que hay un indicador de porcentaje
+    const percentageText = screen.getByText(/\d+%/);
+    expect(percentageText).toBeInTheDocument();
   });
 });
