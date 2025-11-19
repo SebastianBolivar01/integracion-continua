@@ -3,6 +3,13 @@
 import "@testing-library/jest-dom";
 // Las líneas de TextEncoder y TextDecoder se movieron a jest.setup.ts
 
+// Polyfill para ResizeObserver requerido por @react-three/fiber
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({ 
