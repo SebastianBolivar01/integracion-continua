@@ -1,18 +1,21 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shapes, Globe, Palette, Sun, Droplets, MoonStar, Rocket, Earth } from "lucide-react";
+// ✅ Agregamos CloudRain para el ícono del ciclo del agua
+import { Shapes, Globe, Palette, Sun, MoonStar, Rocket, Earth, CloudRain } from "lucide-react";
 
 const homeItems = [
   { icon: Shapes, label: "Explorador de Formas", route: "/shapes", description: "Aprende sobre formas 3D" },
   { icon: Globe, label: "Globo Interactivo", route: "/globe", description: "Explora países del mundo" },
   { icon: Palette, label: "Pintura 3D", route: "/paint", description: "Dibuja en el espacio 3D" },
   { icon: Sun, label: "Sistema Solar", route: "/solarsystem", description: "Descubre los planetas" },
-  { icon: Droplets, label: "Ciclo del Agua", route: "/watercycle", description: "Conoce cómo funciona el agua" },
+  // ✅ Elemento restaurado del Ciclo del Agua
+  { icon: CloudRain, label: "Ciclo del Agua", route: "/watercycle", description: "Explora el ciclo del agua" },
 ];
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center text-center py-16 px-6 min-h-full">
+    /* Sin 'py-16' para evitar el doble scroll con el Layout */
+    <div className="flex flex-col items-center justify-center text-center px-6 min-h-full">
       <motion.div
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
