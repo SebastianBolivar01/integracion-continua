@@ -6,6 +6,7 @@ import HomePage from "../views/HomePage";
 import ShapesView from "../views/ShapesView";
 import GlobeView from "../views/GlobeView";
 import SolarSystemView from "../views/SolarSystemView";
+import WaterCycleView from "../views/WaterCycleView";
 
 
 export default function AppRoutes() {
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="shapes" element={<ShapesView />} />
         <Route path="globe" element={<GlobeView />} />
         <Route path="solarsystem" element={<SolarSystemView />} />
+        <Route path="watercycle" element={<WaterCycleView />} />
       </Route>
     </Routes>
   );
