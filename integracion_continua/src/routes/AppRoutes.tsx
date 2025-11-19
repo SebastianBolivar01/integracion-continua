@@ -1,12 +1,14 @@
+// integracion_continua/src/routes/AppRoutes.tsx
+
 import { Routes, Route } from "react-router-dom";
 import Layout from "../components/Layout";
 import HomePage from "../views/HomePage";
 
-// ✅ Nuevas vistas educativas 3D
+// ✅ Importa la nueva vista
 import ShapesView from "../views/ShapesView";
 import GlobeView from "../views/GlobeView";
 import SolarSystemView from "../views/SolarSystemView";
-import WaterCycleView from "../views/WaterCycleView";
+import PaintView from "../views/PaintView"; // ⬅️  NUEVA IMPORTACIÓN
 
 
 export default function AppRoutes() {
@@ -20,7 +22,9 @@ export default function AppRoutes() {
         <Route path="shapes" element={<ShapesView />} />
         <Route path="globe" element={<GlobeView />} />
         <Route path="solarsystem" element={<SolarSystemView />} />
-        <Route path="watercycle" element={<WaterCycleView />} />
+        
+        {/* 🎨 Ruta de Pintura 3D */}
+        <Route path="paint" element={<PaintView />} /> {/* ⬅️  NUEVA RUTA */}
       </Route>
     </Routes>
   );

@@ -14,8 +14,8 @@ export default function Layout() {
 
   return (
     <div className="h-screen relative">
-      {/* Botón Atrás - solo mostrar si no es home y no es paint */}
-      {!isHome && !isPaint && (
+      {/* Botón Atrás - solo mostrar si no es home */}
+      {!isHome && (
         <button
           onClick={() => navigate('/')}
           className="absolute top-4 left-4 z-10 bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-6 rounded-lg shadow-lg shadow-red-500/50 hover:shadow-red-500/75 hover:shadow-2xl transition-all duration-300 flex items-center space-x-2"
