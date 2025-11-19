@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for views/WaterCycleView.tsx</title>
+    <title>Code coverage report for views/PaintView.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">views</a> WaterCycleView.tsx</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">views</a> PaintView.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -74,29 +74,32 @@
 <a name='L9'></a><a href='#L9'>9</a>
 <a name='L10'></a><a href='#L10'>10</a>
 <a name='L11'></a><a href='#L11'>11</a>
-<a name='L12'></a><a href='#L12'>12</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import WaterCycleScene from "../components/WaterCycleScene";
-import { Droplets } from "lucide-react";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import PaintScene from "../components/PaintScene";
+import { Palette } from "lucide-react";
 &nbsp;
-export default function WaterCycleView() {
+export default function PaintView() {
   return (
-    &lt;div className="bg-white p-4 rounded-lg"&gt;
-      &lt;h2 className="p-4 text-xl font-bold font-display flex items-center"&gt;&lt;Droplets className="mr-2" /&gt; Ciclo del Agua&lt;/h2&gt;
-      &lt;WaterCycleScene /&gt;
+    &lt;div className="relative h-full"&gt;
+      &lt;PaintScene /&gt;
+      &lt;h2 className="absolute top-4 left-1/2 transform -translate-x-1/2 text-3xl font-bold font-display text-white pointer-events-none z-20 flex items-center"&gt;
+        &lt;Palette className="mr-2" /&gt; Pintura 3D - Espacio Creativo
+      &lt;/h2&gt;
     &lt;/div&gt;
   );
-}
-&nbsp;</pre></td></tr></table></pre>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
