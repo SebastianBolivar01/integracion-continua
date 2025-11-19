@@ -1,292 +1,246 @@
-// src/components/WaterCycleScene.tsx
 import { useRef, useState, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { Droplets, Cloud, Sun, Waves } from "lucide-react";
+import { Vector3 } from "three";
 
-interface AnimatedElementProps {
-  position: [number, number, number];
-  scale?: number;
-  color?: string;
-  animationType: 'rise' | 'fall' | 'float' | 'flow';
-  speed?: number;
-}
+function Droplet({ position }: { position: Vector3 }) {
+  const ref = useRef<THREE.Mesh>(null!);
+  const initialPosition = useRef(position.clone());
 
-function AnimatedElement({ position, scale = 1, color = "#ffffff", animationType, speed = 1 }: AnimatedElementProps) {
-  const ref = useRef<THREE.Mesh>(null);
-  const startY = position[1];
-
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (!ref.current) return;
 
-    switch (animationType) {
-      case 'rise':
-        ref.current.position.y += speed * delta * 0.5;
-        if (ref.current.position.y > 3) {
-          ref.current.position.y = startY;
-        }
-        break;
-      case 'fall':
-        ref.current.position.y -= speed * delta * 0.8;
-        if (ref.current.position.y < -2) {
-          ref.current.position.y = startY;
-        }
-        break;
-      case 'float':
-        ref.current.position.x += Math.sin(state.clock.elapsedTime + position[0]) * delta * 0.1;
-        ref.current.position.y += Math.cos(state.clock.elapsedTime + position[1]) * delta * 0.05;
-        break;
-      case 'flow':
-        ref.current.position.x += speed * delta * 0.3;
-        if (ref.current.position.x > 5) {
-          ref.current.position.x = -5;
-        }
-        break;
+    const t_cycle = state.clock.getElapsedTime() % animationConfig.animationDuration;
+    const precipitationStart = animationConfig.evaporationTime + animationConfig.travelTime;
+    const precipitationEnd = precipitationStart + animationConfig.precipitationTime;
+
+    // Comprobar si estamos en la fase de precipitación
+    if (t_cycle >= precipitationStart && t_cycle < precipitationEnd) {
+      ref.current.visible = true;
+      // Animar la caída de la gota
+      const fallDuration = 2; // Cuánto tarda la gota en caer
+      ref.current.position.y = initialPosition.current.y - ((state.clock.getElapsedTime() * 0.8) % fallDuration);
+    } else {
+      // Ocultar y reiniciar la gota fuera de la fase de precipitación
+      ref.current.visible = false;
+      ref.current.position.y = initialPosition.current.y;
     }
   });
 
   return (
-    <mesh ref={ref} position={position} scale={[scale, scale, scale]}>
-      <sphereGeometry args={[0.1, 8, 8]} />
-      <meshStandardMaterial color={color} />
+    <mesh ref={ref} position={initialPosition.current} visible={false}>
+      <sphereGeometry args={[0.05, 16, 16]} />
+      <meshStandardMaterial color="#00aaff" />
     </mesh>
   );
 }
 
-export default function WaterCycleScene() {
-  const [phase, setPhase] = useState<'evaporation' | 'condensation' | 'precipitation' | 'collection'>('evaporation');
+const animationConfig = {
+  evaporationTime: 3, // 3s para que el vapor suba
+  travelTime: 5, // 5s para que la nube se mueva
+  precipitationTime: 2, // 2s para que la nube se quede sobre la montaña
+  resetTime: 2, // 2s para que la nube esté invisible
+  get animationDuration() {
+    return this.evaporationTime + this.travelTime + this.precipitationTime + this.resetTime;
+  }, // 12s en total
+};
 
-  const waterDroplets = useMemo(() => {
-    return Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      position: [
-        (Math.random() - 0.5) * 4,
-        -2 + Math.random() * 2,
-        (Math.random() - 0.5) * 2
-      ] as [number, number, number],
-      animationType: 'rise' as const,
-      speed: 0.5 + Math.random() * 0.5
-    }));
-  }, []);
+function Cloud() {
+  const groupRef = useRef<THREE.Group>(null!);
+  const startX = 2;
+  const endX = -2;
+  const { evaporationTime, travelTime, precipitationTime, animationDuration } = animationConfig;
 
-  const rainDrops = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      position: [
-        (Math.random() - 0.5) * 6,
-        2 + Math.random() * 2,
-        (Math.random() - 0.5) * 2
-      ] as [number, number, number],
-      animationType: 'fall' as const,
-      speed: 1 + Math.random() * 0.5
-    }));
-  }, []);
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime() % animationDuration;
 
-  const cloudParticles = useMemo(() => {
-    return Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      position: [
-        (Math.random() - 0.5) * 3,
-        1.5 + Math.random() * 1,
-        (Math.random() - 0.5) * 1
-      ] as [number, number, number],
-      animationType: 'float' as const,
-      speed: 0.2
-    }));
-  }, []);
-
-  const riverFlow = useMemo(() => {
-    return Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      position: [
-        -5 + (i * 1),
-        -2.5,
-        0
-      ] as [number, number, number],
-      animationType: 'flow' as const,
-      speed: 0.8
-    }));
-  }, []);
+    if (t < evaporationTime) {
+      // Fase 1: La nube está visible y quieta en la posición inicial
+      if (groupRef.current) groupRef.current.visible = true;
+      groupRef.current.position.x = startX;
+    } else if (t < evaporationTime + travelTime) {
+      // Fase 2: La nube es visible y se mueve de derecha a izquierda
+      if (groupRef.current) groupRef.current.visible = true;
+      const progress = (t - evaporationTime) / travelTime;
+      groupRef.current.position.x = THREE.MathUtils.lerp(startX, endX, progress);
+    } else if (t < evaporationTime + travelTime + precipitationTime) {
+      // Fase 3: La nube está quieta sobre la montaña
+      if (groupRef.current) groupRef.current.visible = true;
+      groupRef.current.position.x = endX;
+    } else {
+      // Fase 4: La nube desaparece para reiniciar
+      if (groupRef.current) groupRef.current.visible = false;
+    }
+  });
 
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
-      <Canvas camera={{ position: [0, 0, 5] }}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} />
+    <group ref={groupRef} position={[startX, 2.5, 0]}>
+      <mesh position={[0, 0, 0]}><sphereGeometry args={[0.6, 16, 16]} /><meshStandardMaterial color="#ffffff" /></mesh>
+      <mesh position={[0.6, 0, 0]}><sphereGeometry args={[0.5, 16, 16]} /><meshStandardMaterial color="#ffffff" /></mesh>
+      <mesh position={[-0.6, 0, 0]}><sphereGeometry args={[0.5, 16, 16]} /><meshStandardMaterial color="#ffffff" /></mesh>
+    </group>
+  );
+}
 
-        {/* Sun */}
-        <mesh position={[3, 2, -2]}>
-          <sphereGeometry args={[0.3, 16, 16]} />
-          <meshStandardMaterial color="#ffd700" emissive="#ffd700" emissiveIntensity={0.3} />
+function VaporParticle() {
+  const ref = useRef<THREE.Mesh>(null!);
+
+  // Estado para la posición y velocidad de cada partícula
+  const [position] = useState(() => new THREE.Vector3(
+    1.5 + Math.random(),      // Posición X sobre el mar (cerca de donde empieza la nube)
+    -0.9,                     // Posición Y inicial en la superficie del mar
+    (Math.random() - 0.5) * 2 // Posición Z aleatoria
+  ));
+  const [speed] = useState(() => 0.3 + Math.random() * 0.4);
+
+  useFrame((state, delta) => {
+    if (ref.current) {
+      const t = state.clock.getElapsedTime() % animationConfig.animationDuration;
+
+      // Solo animar y mostrar el vapor durante la fase de evaporación
+      if (t < animationConfig.evaporationTime) {
+        ref.current.visible = true;
+        // Mover la partícula hacia arriba
+        ref.current.position.y += speed * delta;
+        // Desvanecer la partícula a medida que sube
+        (ref.current.material as THREE.MeshStandardMaterial).opacity -= 0.2 * delta;
+
+        // Reiniciar la partícula cuando llega a la nube o se desvanece
+        if (ref.current.position.y > 2.5 || (ref.current.material as THREE.MeshStandardMaterial).opacity <= 0) {
+          ref.current.position.y = -0.9;
+          (ref.current.material as THREE.MeshStandardMaterial).opacity = 0.7;
+        }
+      } else {
+        // Ocultar la partícula si no estamos en la fase de evaporación
+        ref.current.visible = false;
+        // Reiniciar su estado para el próximo ciclo
+        ref.current.position.y = -0.9;
+        (ref.current.material as THREE.MeshStandardMaterial).opacity = 0.7;
+      }
+    }
+  });
+
+  return (
+    <mesh ref={ref} position={position}>
+      <sphereGeometry args={[0.08, 8, 8]} />
+      <meshStandardMaterial color="#ffffff" transparent opacity={0.7} />
+    </mesh>
+  );
+}
+
+function Mountain({ position, scale = 1, seed = 0 }: { position: Vector3, scale?: number, seed?: number }) {
+  const geometry = useMemo(() => { 
+    const geom = new THREE.SphereGeometry(1.2, 32, 32);
+    const positions = geom.attributes.position;
+    const vertex = new THREE.Vector3();
+    const colors: number[] = [];
+    const color = new THREE.Color();
+    const snowColor = new THREE.Color("#ffffff"); // Nieve
+    const rockColor = new THREE.Color("#654321");
+    const earthColor = new THREE.Color("#556B2F"); // Un verde terroso
+    const snowLevel = 1.0; // Aumentamos la altura para que haya menos nieve
+
+    for (let i = 0; i < positions.count; i++) {
+      vertex.fromBufferAttribute(positions, i);
+
+      // Asignar color basado en la altura original del vértice
+      if (vertex.y > snowLevel) {
+        color.set(snowColor);
+      } else if (vertex.y > 0) { // Mitad superior de la esfera original
+        color.set(rockColor);
+      } else { // Mitad inferior
+        color.set(earthColor);
+      }
+      colors.push(color.r, color.g, color.b);
+
+      // Deformar la geometría para que parezca una montaña
+      // Usamos una combinación de senos para una deformación más natural que Math.random()
+      const noise = 
+        0.5 * Math.sin(vertex.x * 2 + seed) * Math.cos(vertex.z * 2 + seed) +
+        0.25 * Math.sin(vertex.x * 5 + seed) * Math.cos(vertex.z * 5 + seed);
+
+      if (vertex.y > 0) {
+        // Aplicamos la deformación solo a la parte superior y la amplificamos
+        vertex.y += noise * Math.pow(vertex.y, 2) * 2.5;
+      }
+      positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geom.computeVertexNormals();
+    return geom;
+  }, [seed]);
+
+  return <mesh geometry={geometry} position={position} scale={scale}><meshStandardMaterial vertexColors={true} /></mesh>;
+}
+
+function Land() {
+  const geometry = useMemo(() => {
+    // Plano con más segmentos para poder deformarlo
+    const geom = new THREE.PlaneGeometry(10, 10, 50, 50);
+    const positions = geom.attributes.position;
+    const vertex = new THREE.Vector3();
+
+    for (let i = 0; i < positions.count; i++) {
+      vertex.fromBufferAttribute(positions, i);
+      // Los vértices del borde derecho (x=5) se ondulan para crear la costa
+      if (Math.abs(vertex.x - 5) < 0.1) {
+        vertex.x += Math.sin(vertex.y * 1.2) * 0.6 + Math.cos(vertex.y * 2.5) * 0.3;
+      }
+      positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    geom.computeVertexNormals();
+    return geom;
+  }, []);
+
+  return <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} position={[-5, -0.99, 0]}><meshStandardMaterial color="#556B2F" /></mesh>;
+}
+
+export default function WaterCycleScene() {
+  return (
+    <div style={{ width: "70vw", height: "70vh" }}>
+      <Canvas camera={{ position: [0, 3, 8], fov: 60 }}>
+        <color attach="background" args={["#87CEEB"]} />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+
+        {/* Mar */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+          <planeGeometry args={[20, 10]} />
+          <meshStandardMaterial color="#1e90ff" />
         </mesh>
 
-        {/* Ocean */}
-        <mesh position={[0, -3, 0]} rotation-x={-Math.PI / 2}>
-          <planeGeometry args={[10, 10]} />
-          <meshStandardMaterial color="#1e40af" />
-        </mesh>
+        {/* Tierra/Playa con borde ondulado */}
+        <Land />
 
-        {/* Ground */}
-        <mesh position={[0, -2.8, 0]} rotation-x={-Math.PI / 2}>
-          <planeGeometry args={[8, 6]} />
-          <meshStandardMaterial color="#16a34a" />
-        </mesh>
+        {/* Montaña */}
+        <Mountain position={new THREE.Vector3(-2, -0.5, 0)} scale={1} seed={0} />
+        {/* Montañas más pequeñas */}
+        <Mountain position={new THREE.Vector3(-4.5, -0.8, -1.5)} scale={0.5} seed={10} />
+        <Mountain position={new THREE.Vector3(-3.5, -0.9, 2)} scale={0.35} seed={20} />
 
-        {/* River bed */}
-        <mesh position={[0, -2.6, 0]} rotation-x={-Math.PI / 2}>
-          <planeGeometry args={[6, 0.5]} />
-          <meshStandardMaterial color="#0ea5e9" />
-        </mesh>
+        {/* Nube */}
+        <Cloud />
 
-        {/* Animated elements based on phase */}
-        {phase === 'evaporation' && waterDroplets.map((droplet) => (
-          <AnimatedElement
-            key={droplet.id}
-            position={droplet.position}
-            color="#3b82f6"
-            animationType={droplet.animationType}
-            speed={droplet.speed}
+        {/* Partículas de vapor (Evaporación) */}
+        {[...Array(20)].map((_, i) => (
+          <VaporParticle key={i} />
+        ))}
+
+        {/* Gotas animadas */}
+        {[...Array(10)].map((_, i) => (
+          <Droplet
+            key={i}
+            position={new THREE.Vector3(
+              -2 + (Math.random() - 0.5) * 0.8, // Posición X sobre la montaña
+              2.5 + Math.random(), // Altura inicial sobre la nube
+              (Math.random() - 0.5) * 0.8 // Posición Z alrededor de la montaña
+            )}
           />
         ))}
 
-        {(phase === 'condensation' || phase === 'precipitation') && cloudParticles.map((particle) => (
-          <AnimatedElement
-            key={particle.id}
-            position={particle.position}
-            color="#e5e7eb"
-            animationType={particle.animationType}
-            speed={particle.speed}
-          />
-        ))}
-
-        {phase === 'precipitation' && rainDrops.map((drop) => (
-          <AnimatedElement
-            key={drop.id}
-            position={drop.position}
-            color="#60a5fa"
-            animationType={drop.animationType}
-            speed={drop.speed}
-          />
-        ))}
-
-        {phase === 'collection' && riverFlow.map((flow) => (
-          <AnimatedElement
-            key={flow.id}
-            position={flow.position}
-            color="#0ea5e9"
-            animationType={flow.animationType}
-            speed={flow.speed}
-          />
-        ))}
+        <OrbitControls />
       </Canvas>
-
-      {/* Phase indicator */}
-      <div style={{
-        position: "absolute",
-        top: "80%",
-        left: "50%",
-        transform: "translateX(-50%)",
-        backgroundColor: "white",
-        color: "black",
-        fontSize: "1.5rem",
-        fontWeight: "bold",
-        padding: "10px 20px",
-        borderRadius: "20px",
-        boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-        pointerEvents: "none",
-        zIndex: 5
-      }}>
-        {phase === 'evaporation' && '🌞 Evaporación'}
-        {phase === 'condensation' && '☁️ Condensación'}
-        {phase === 'precipitation' && '🌧️ Precipitación'}
-        {phase === 'collection' && '🏞️ Recolección'}
-      </div>
-
-      {/* Control panel */}
-      <div className="font-sans bg-cyan-500/20 backdrop-blur-sm border border-cyan-400/50 text-cyan-100 absolute top-1/2 left-[90%] transform -translate-x-1/2 -translate-y-1/2 p-5 rounded-2xl shadow-lg z-10 text-center flex flex-col items-center">
-        <h3 style={{
-          marginBottom: "8px",
-          fontSize: "18px",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
-          color: "#ffd700"
-        }}>
-          <Droplets className="inline mr-2" />
-          <span className="font-display">Ciclo del Agua</span>
-        </h3>
-
-        <p style={{
-          marginBottom: "16px",
-          fontSize: "14px",
-          color: "#ffffff",
-          textAlign: "center"
-        }}>Observa las fases del ciclo</p>
-
-        <div style={{ marginBottom: "12px" }}>
-          <button
-            onClick={() => setPhase('evaporation')}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: phase === 'evaporation' ? "#ffd700" : "rgba(255, 255, 255, 0.9)",
-              color: phase === 'evaporation' ? "#000" : "#333",
-              fontWeight: "bold",
-              cursor: "pointer",
-              margin: "4px"
-            }}
-          >
-            🌞 Evaporación
-          </button>
-          <button
-            onClick={() => setPhase('condensation')}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: phase === 'condensation' ? "#ffd700" : "rgba(255, 255, 255, 0.9)",
-              color: phase === 'condensation' ? "#000" : "#333",
-              fontWeight: "bold",
-              cursor: "pointer",
-              margin: "4px"
-            }}
-          >
-            ☁️ Condensación
-          </button>
-        </div>
-
-        <div style={{ marginBottom: "12px" }}>
-          <button
-            onClick={() => setPhase('precipitation')}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: phase === 'precipitation' ? "#ffd700" : "rgba(255, 255, 255, 0.9)",
-              color: phase === 'precipitation' ? "#000" : "#333",
-              fontWeight: "bold",
-              cursor: "pointer",
-              margin: "4px"
-            }}
-          >
-            🌧️ Precipitación
-          </button>
-          <button
-            onClick={() => setPhase('collection')}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: phase === 'collection' ? "#ffd700" : "rgba(255, 255, 255, 0.9)",
-              color: phase === 'collection' ? "#000" : "#333",
-              fontWeight: "bold",
-              cursor: "pointer",
-              margin: "4px"
-            }}
-          >
-            🏞️ Recolección
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

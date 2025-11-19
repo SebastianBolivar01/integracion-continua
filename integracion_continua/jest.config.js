@@ -4,11 +4,11 @@ export default {
   moduleNameMapper: {
     "^.+\\.(css|scss|sass|less)$": "identity-obj-proxy",
   },
-
+  
   // --- CAMBIOS AQUÍ ---
   // Ejecuta ESTE archivo ANTES de todo.
   setupFiles: ["<rootDir>/src/jest.setup.ts"],
-
+  
   // Mantenemos esto para jest-dom y otros mocks.
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   // --- FIN DE CAMBIOS ---
@@ -17,7 +17,4 @@ export default {
     "^.+\\.(ts|tsx)$": ["ts-jest", { useESM: true }],
   },
   extensionsToTreatAsEsm: [".ts", ".tsx"],
-  transformIgnorePatterns: [
-    "node_modules/(?!react-globe\\.gl/)"
-  ],
 };

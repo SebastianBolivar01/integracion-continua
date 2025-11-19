@@ -1,34 +1,31 @@
-/* eslint-disable no-unused-vars */
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Ring, Stars } from "@react-three/drei";
 import * as THREE from "three";
 
-function Planet(props: {
+interface PlanetProps {
   name: string;
   color: string;
   size: number;
   distance: number;
   speed: number;
   onClick: (name: string) => void;
-}) {
+}
+
+function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const angleRef = useRef(Math.random() * Math.PI * 2);
 
   useFrame(() => {
-      angleRef.current += props.speed;
-    });
+    angleRef.current += speed;
+    meshRef.current.position.x = Math.cos(angleRef.current) * distance;
+    meshRef.current.position.z = Math.sin(angleRef.current) * distance;
+  });
 
   return (
-    <mesh
-      ref={meshRef}
-      onClick={() => props.onClick(props.name)}
-      data-testid={`planet-${props.name}`}
-      data-name={props.name}
-      position={[Math.cos(angleRef.current) * props.distance, 0, Math.sin(angleRef.current) * props.distance]}
-    >
-      <sphereGeometry args={[props.size, 32, 32]} />
-      <meshStandardMaterial color={props.color} />
+    <mesh ref={meshRef} onClick={() => onClick(name)} data-testid={`planet-${name}`}>
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial color={color} />
     </mesh>
   );
 }

@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shapes, Globe, Palette, Sun, MoonStar, Rocket, Earth, Droplets } from "lucide-react";
+import { Shapes, Globe, Palette, Sun, Droplets, MoonStar, Rocket, Earth } from "lucide-react";
 
 const homeItems = [
   { icon: Shapes, label: "Explorador de Formas", route: "/shapes", description: "Aprende sobre formas 3D" },
   { icon: Globe, label: "Globo Interactivo", route: "/globe", description: "Explora países del mundo" },
   { icon: Palette, label: "Pintura 3D", route: "/paint", description: "Dibuja en el espacio 3D" },
   { icon: Sun, label: "Sistema Solar", route: "/solarsystem", description: "Descubre los planetas" },
-  { icon: Droplets, label: "Ciclo del Agua", route: "/watercycle", description: "Observa el ciclo del agua" },
+  { icon: Droplets, label: "Ciclo del Agua", route: "/watercycle", description: "Conoce cómo funciona el agua" },
 ];
 
 export default function HomePage() {
