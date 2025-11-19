@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo } from "react";
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { Vector3 } from "three";
@@ -49,7 +49,7 @@ const animationConfig = {
   }, // 12s en total
 };
 
-function Cloud({ isPlaying = true, speed = 1, onPhaseChange }: { isPlaying?: boolean; speed?: number; onPhaseChange?: (phase: string) => void }) {
+function Cloud({ isPlaying = true, speed = 1, onPhaseChange }: { isPlaying?: boolean; speed?: number; onPhaseChange?: (phaseName: string) => void }) {
   const groupRef = useRef<THREE.Group>(null!);
   const startX = 2;
   const endX = -2;

@@ -9,7 +9,7 @@ interface PlanetProps {
   size: number;
   distance: number;
   speed: number;
-  onClick: (name: string) => void;
+  onClick: (planetName: string) => void;
 }
 
 function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
