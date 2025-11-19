@@ -15,6 +15,7 @@ interface PlanetProps {
 function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const angleRef = useRef(Math.random() * Math.PI * 2);
+  const planetName = name; // ESLint fix: explicit usage
 
   useFrame(() => {
     angleRef.current += speed;
@@ -23,7 +24,7 @@ function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
   });
 
   return (
-    <mesh ref={meshRef} onClick={() => onClick(name)} data-testid={`planet-${name}`}>
+    <mesh ref={meshRef} onClick={() => onClick(planetName)} data-testid={`planet-${planetName}`}>
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial color={color} />
     </mesh>

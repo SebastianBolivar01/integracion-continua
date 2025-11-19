@@ -6,7 +6,6 @@ export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
-  const isPaint = location.pathname === '/paint';
   const isGlobe = location.pathname === '/globe';
   const isSolarSystem = location.pathname === '/solarsystem';
   const isShapes = location.pathname === '/shapes';

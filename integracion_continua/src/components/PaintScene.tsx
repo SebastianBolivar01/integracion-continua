@@ -1,11 +1,11 @@
 // integracion_continua/src/components/PaintScene.tsx
 import { useRef, useState, useCallback, forwardRef, useImperativeHandle } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, Line } from "@react-three/drei";
 import * as THREE from "three";
-import { Palette, Brush, Minus, CircleDot, SprayCan, Trash2 } from "lucide-react";
+import { Brush, Minus, CircleDot, SprayCan, Trash2 } from "lucide-react";
 
-interface PaintSceneProps {}
+
 
 type BrushType = 'solid' | 'dotted' | 'spray';
 
@@ -27,14 +27,13 @@ export interface DrawingPlaneRef {
 }
 
 const DrawingPlane = forwardRef<DrawingPlaneRef, DrawingPlaneProps>(({ brushColor, brushSize, brushType }, ref) => {
-  const { camera, scene, raycaster, pointer } = useThree();
+  const { camera, raycaster, pointer } = useThree();
   const [isDrawing, setIsDrawing] = useState(false);
   const [currentLine, setCurrentLine] = useState<THREE.Vector3[]>([]);
   const [lines, setLines] = useState<LineData[]>([]);
   const planeRef = useRef<THREE.Mesh>(null);
 
-  const handlePointerDown = useCallback((event: any) => {
-    event.stopPropagation();
+  const handlePointerDown = useCallback((_event: any) => {
     setIsDrawing(true);
     const point = new THREE.Vector3();
     raycaster.setFromCamera(pointer, camera);
@@ -45,7 +44,7 @@ const DrawingPlane = forwardRef<DrawingPlaneRef, DrawingPlaneProps>(({ brushColo
     }
   }, [camera, pointer, raycaster]);
 
-  const handlePointerMove = useCallback((event: any) => {
+  const handlePointerMove = useCallback((_event: any) => {
     if (!isDrawing) return;
     const point = new THREE.Vector3();
     raycaster.setFromCamera(pointer, camera);
@@ -118,7 +117,7 @@ const DrawingPlane = forwardRef<DrawingPlaneRef, DrawingPlaneProps>(({ brushColo
   );
 });
 
-export default function PaintScene({}: PaintSceneProps) {
+export default function PaintScene() {
   const drawingPlaneRef = useRef<DrawingPlaneRef>(null);
   const [brushColor, setBrushColor] = useState("#ff0000");
   const [brushSize, setBrushSize] = useState(0.01);
