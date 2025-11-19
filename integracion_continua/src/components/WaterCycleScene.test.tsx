@@ -47,25 +47,52 @@ describe("WaterCycleScene", () => {
   // Prueba que verifica que el mar se renderiza
   it("renders the sea", () => {
     render(<WaterCycleScene />);
+<<<<<<< HEAD
     // El mar es un mesh con planeGeometry y color azul
     expect(screen.getByTestId("canvas")).toBeInTheDocument();
+=======
+    expect(screen.getByText("Controles")).toBeInTheDocument();
+  });
+
+  it("renders control buttons", () => {
+    render(<WaterCycleScene />);
+    // Verificar que los botones de control están presentes (usando sus roles o accessibility)
+    const buttons = screen.getAllByRole("button");
+    expect(buttons.length).toBeGreaterThan(0);
+  });
+
+  it("shows current phase indicator", () => {
+    render(<WaterCycleScene />);
+    expect(screen.getByText("Fase actual:")).toBeInTheDocument();
+>>>>>>> b46b29c7d9ed8f2a0b970e0cf43ecd28d3a18331
   });
 
   // Prueba que verifica que la tierra/playa se renderiza
   it("renders the land", () => {
     render(<WaterCycleScene />);
+<<<<<<< HEAD
     expect(screen.getByTestId("canvas")).toBeInTheDocument();
+=======
+    expect(screen.getByText("Velocidad:")).toBeInTheDocument();
+>>>>>>> b46b29c7d9ed8f2a0b970e0cf43ecd28d3a18331
   });
 
   // Prueba que verifica que las montañas se renderizan
   it("renders mountains", () => {
     render(<WaterCycleScene />);
+<<<<<<< HEAD
     expect(screen.getByTestId("canvas")).toBeInTheDocument();
+=======
+    const infoButton = screen.getByRole("button", { name: /info/i });
+    fireEvent.click(infoButton);
+    expect(screen.getByText("¿Qué es el ciclo del agua?")).toBeInTheDocument();
+>>>>>>> b46b29c7d9ed8f2a0b970e0cf43ecd28d3a18331
   });
 
   // Prueba que verifica que la nube se renderiza
   it("renders the cloud", () => {
     render(<WaterCycleScene />);
+<<<<<<< HEAD
     expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 
@@ -85,5 +112,10 @@ describe("WaterCycleScene", () => {
   it("renders orbit controls", () => {
     render(<WaterCycleScene />);
     expect(screen.getByTestId("orbit-controls")).toBeInTheDocument();
+=======
+    // Verificar que hay un indicador de porcentaje
+    const percentageText = screen.getByText(/\d+%/);
+    expect(percentageText).toBeInTheDocument();
+>>>>>>> b46b29c7d9ed8f2a0b970e0cf43ecd28d3a18331
   });
 });
