@@ -49,7 +49,8 @@ const animationConfig = {
   }, // 12s en total
 };
 
-function Cloud({ isPlaying = true, speed = 1, onPhaseChange }: { isPlaying?: boolean; speed?: number; onPhaseChange?: (phase: string) => void }) {
+function Cloud({ isPlaying = true, speed = 1, onPhaseChange }: { isPlaying?: boolean; speed?: number; // eslint-disable-next-line no-unused-vars
+  onPhaseChange?: (_phase: string) => void }) {
   const groupRef = useRef<THREE.Group>(null!);
   const startX = 2;
   const endX = -2;

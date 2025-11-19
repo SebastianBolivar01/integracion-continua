@@ -9,7 +9,8 @@ interface PlanetProps {
   size: number;
   distance: number;
   speed: number;
-  onClick: (name: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClick: (_name: string) => void;
 }
 
 function Planet({ name: _name, color, size, distance, speed, onClick }: PlanetProps) {
