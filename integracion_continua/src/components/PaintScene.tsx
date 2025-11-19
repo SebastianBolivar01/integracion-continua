@@ -33,7 +33,7 @@ const DrawingPlane = forwardRef<DrawingPlaneRef, DrawingPlaneProps>(({ brushColo
   const [lines, setLines] = useState<LineData[]>([]);
   const planeRef = useRef<THREE.Mesh>(null);
 
-  const handlePointerDown = useCallback((_event: any) => {
+  const handlePointerDown = useCallback(() => {
     setIsDrawing(true);
     const point = new THREE.Vector3();
     raycaster.setFromCamera(pointer, camera);
@@ -44,7 +44,7 @@ const DrawingPlane = forwardRef<DrawingPlaneRef, DrawingPlaneProps>(({ brushColo
     }
   }, [camera, pointer, raycaster]);
 
-  const handlePointerMove = useCallback((_event: any) => {
+  const handlePointerMove = useCallback(() => {
     if (!isDrawing) return;
     const point = new THREE.Vector3();
     raycaster.setFromCamera(pointer, camera);

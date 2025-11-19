@@ -12,10 +12,10 @@ interface PlanetProps {
   onClick: (name: string) => void;
 }
 
-function Planet({ name, color, size, distance, speed, onClick }: PlanetProps) {
+function Planet({ name: _name, color, size, distance, speed, onClick }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const angleRef = useRef(Math.random() * Math.PI * 2);
-  const planetName = name; // ESLint fix: explicit usage
+  const planetName = _name; // ESLint fix: explicit usage
 
   useFrame(() => {
     angleRef.current += speed;
