@@ -1,12 +1,12 @@
-name: CI (Vitest)
-# 🧪 Variante de CI para proyectos que usan Vitest en lugar de Jest
+name: CI (Jest)
+# 🧪 Variante de CI para proyectos que usan Jest
 
 on:
   workflow_dispatch: {}
   # ▶️ Se ejecuta manualmente desde la pestaña Actions (Run workflow)
 
 jobs:
-  build-and-test-vitest:
+  build-and-test-jest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -33,8 +33,8 @@ jobs:
       - name: 🔍 Lint (ESLint)
         run: npm run lint
 
-      - name: 🧪 Run tests (Vitest)
-        run: npm test -- --run
+      - name: 🧪 Run tests (Jest)
+        run: npm test -- --ci
 
       - name: 🏗️ Build (Vite)
         run: npm run build
